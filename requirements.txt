@@ -8,6 +8,9 @@ requests>=2.31.0
 matplotlib
 numpy
 together
+transformers
+qwen_omni_utils
+soundfile
 
 # To Install
 # pip install -r requirements.txt
