@@ -56,62 +56,12 @@
     visibility: hidden !important;
 }
 
-:root {
-
-  /* Text colors */
-  --primarytext-color: #0f0e09;
-  --secondarytext-color: #696966;
-
-  /* Primary colors */
-  --primary-dark: #041F37;
-  --primary-light: #728DA5;
-  
-  /* Secondary colors */
-  --secondary-dark: #551a00;
-  --secondary-light: #d48b6a;
-
-  /* Chat colors */
-  --user_message: #4A6B8A;
-  --ai_message: #A4BB6A;
-  --chathistory_area: #f0e1db;
-  
-  /* Text, Chat, UI */
-  --Send: #d4bb6a;
-  --clear: #aa8f39;
-  --Send-hover: #aa9347;
-  --clear-hover: #7a641d;
-  --toggle: #A4BB6A;
-  --toggle-hover: #758b3d;
-  --text_areabackground: #f0e1db;
-
-
-  /* Border thickness variables */
-  --border-thin: 1px;
-  --border-medium: 2px;
-  
-  /* Semantic border variables */
-  --border-default: 1px;
-  --border-focus: 2px;
-  --border-hover: 3px;
-  
-  /* Component-specific borders */
-  --button-border: 2px;
-  --input-border: 1px;
-  --card-border: 1px;
-  --toggle-border: 3px;
-}
-
-/* Apply Oswald globally */
-*, *::before, *::after {
-    font-family: "Oswald", sans-serif !important;
-    color: #120f0e !important;
-}
-
+/* Title header with transparent background */
 .title-header {
     background-color: transparent;
     padding: 10px 20px;
     margin: 0 !important;
-    border-bottom: 1pt solid #59524f;
+    border-bottom: var(--border-focus) solid var(--primary-dark);
     text-align: left;
     flex-shrink: 0 !important;
     height: 60px !important;
@@ -120,25 +70,8 @@
     width: 100% !important;
 }
 
-.title-header h1 {
-    font-size: 1.5rem;
-    font-weight: 600 !important;
-    color: #120f0e !important;
-    margin: 0;
-    padding: 0;
-}
-
-/* Input controls styling - acts as footer */
-.input-controls {
-    padding: 15px 20px !important;
-    background-color: rgb(240, 236, 230) !important;
-    border-top: 1pt solid #59524f;
-    flex-shrink: 0 !important;
-    width: 100% !important;
-}
-
-/* Main container styling - viewport height with no top margin */
-.gradio-container-5-42-0 {
+/* Background area behind everything */
+.gradio-container {
     background-color: rgb(240, 236, 230) !important;
     font-family: "Oswald", sans-serif !important;
     color: var(--primarytext-color) !important;
@@ -160,10 +93,15 @@
     margin-top: 0 !important;
 }
 
-/* Chat styling - FLEX to fill space */
-.gradio-container-5-42-0 .gradio-chatbot {
-    background-color: #d9d1ce !important;
-    border: 1pt solid #59524f !important;
+/* Main container wrapper */
+.main-container {
+    padding-bottom: 50px !important;
+}
+
+/* Chat history container/box */
+#main-chatbot {
+    border: var(--border-default) solid var(--primary-dark);
+    background-color: var(--chathistory_area);
     border-radius: 6px !important;
     padding: 15px !important;
     flex: 1 !important;
@@ -173,13 +111,35 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Message styling */
-.gradio-container-5-42-0 .gradio-chatbot .message.bot .markdown {
-    background-color: #f09c7d !important;
-    color: #120f0e !important;
+/* Gradio-specific chat container selectors */
+.gradio-container .gradio-chatbot {
+    background-color: var(--chathistory_area) !important;
+    border: var(--border-default) solid var(--primary-dark) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.gradio-container .gradio-chatbot > div {
+    background-color: var(--chathistory_area) !important;
+}
+
+.gradio-container .gradio-chatbot .message {
+    background-color: transparent !important;
+}
+
+/* User message text box */
+.message.user {
+    border: 1pt solid var(--secondary-dark);
+    background-color: var(--user_message);
+}
+
+/* User message markdown styling */
+.message.user .markdown {
+    background-color: var(--user_message) !important;
+    color: var(--primarytext-color) !important;
     border-radius: 8px !important;
     padding: 12px 16px !important;
-    border: 1pt solid #59524f !important;
+    border: var(--border-default) solid var(--primary-dark) !important;
     max-width: 70%;
     margin-left: auto;
     margin-right: 0;
@@ -188,12 +148,19 @@
     margin-bottom: 10px !important;
 }
 
-.gradio-container-5-42-0 .gradio-chatbot .message.user .markdown {
-    background-color: #a69189 !important;
-    color: #120f0e !important;
+/* AI message text box */
+.message.bot {
+    border: 1pt solid var(--secondary-dark);
+    background-color: var(--ai_message);
+}
+
+/* AI message markdown styling */
+.message.bot .markdown {
+    background-color: var(--ai_message) !important;
+    color: var(--primarytext-color) !important;
     border-radius: 8px !important;
     padding: 12px 16px !important;
-    border: 1pt solid #59524f !important;
+    border: var(--border-default) solid var(--secondary-dark) !important;
     max-width: 70%;
     margin-left: 0;
     margin-right: auto;
@@ -202,12 +169,10 @@
     margin-bottom: 10px !important;
 }
 
-/* Input controls styling */
-.input-controls {
-    padding: 15px 20px !important;
-    background-color: rgb(240, 236, 230) !important;
-    border-top: 1pt solid #59524f;
-    flex-shrink: 0 !important;
+/* Input textbox */
+.input-textbox {
+    border: var(--border-default) solid var(--primary-dark);
+    background-color: var(--text_areabackground);
 }
 
 /* Input textbox textarea styling */
@@ -272,36 +237,68 @@ textarea:focus {
     box-shadow: 0 0 0 var(--border-focus) rgba(212, 139, 106, 0.2) !important;
 }
 
-.send-button, .clear-button {
-   border: 1pt solid #59524f !important;
-   border-radius: 6px !important;
-   font-weight: 500 !important;
-   padding: 8px 16px !important;
-   margin-bottom: 5px !important;
-   width: 100% !important;
+/* Send button */
+.send-button {
+    border: 1pt solid var(--secondary-dark);
+    background-color: var(--Send);
+    border: var(--button-border) solid var(--secondary-dark) !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    margin-bottom: 5px !important;
+    width: 100% !important;
+    background-color: var(--Send) !important;
+    color: var(--primarytext-color) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.send-button {
-   background-color: #f09c7d !important;
-   color: #120f0e !important;
+/* Gradio-specific button selectors */
+.gradio-container button.send-button {
+    background-color: var(--Send) !important;
+    color: var(--primarytext-color) !important;
+    border: var(--button-border) solid var(--secondary-dark) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: "Oswald", sans-serif !important;
 }
 
 /* Send button hover */
 .send-button:hover {
-   background-color: #e8895a !important;
-   border-color: #4a3f3c !important;
+    background-color: var(--Send-hover);
+    background-color: var(--Send-hover) !important;
+    border-color: var(--secondary-dark) !important;
 }
 
 /* Clear button */
 .clear-button {
-   background-color: #a69189 !important;
-   color: #120f0e !important;
+    border: 1pt solid var(--secondary-dark);
+    background-color: var(--clear);
+    border: var(--button-border) solid var(--secondary-dark) !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    margin-bottom: 5px !important;
+    width: 100% !important;
+    background-color: var(--clear) !important;
+    color: var(--primarytext-color) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradio-specific clear button selector */
+.gradio-container button.clear-button {
+    background-color: var(--clear) !important;
+    color: var(--primarytext-color) !important;
+    border: var(--button-border) solid var(--secondary-dark) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: "Oswald", sans-serif !important;
 }
 
 /* Clear button hover */
 .clear-button:hover {
-   background-color: #8f7d73 !important;
-   border-color: #4a3f3c !important;
+    background-color: var(--clear-hover);
+    background-color: var(--clear-hover) !important;
+    border-color: var(--secondary-dark) !important;
 }
 
 /* Voice toggle switch */
@@ -368,7 +365,7 @@ footer.svelte-czcr5b {
 /* Footer buttons styling */
 footer.svelte-czcr5b button {
     background-color: transparent !important;
-    color: #120f0e !important;
+    color: var(--secondarytext-color) !important;
     border: none !important;
     font-family: "Oswald", sans-serif !important;
     font-size: 12px !important;
