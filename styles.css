@@ -11,17 +11,62 @@
     visibility: hidden !important;
 }
 
+:root {
+
+  /* Text colors */
+  --primarytext-color: #0f0e09;
+  --secondarytext-color: #696966;
+
+  /* Primary colors */
+  --primary-dark: #041F37;
+  --primary-light: #728DA5;
+  
+  /* Secondary colors */
+  --secondary-dark: #551a00;
+  --secondary-light: #d48b6a;
+
+  /* Chat colors */
+  --user_message: #4A6B8A;
+  --ai_message: #A4BB6A;
+  --chathistory_area: #f0e1db;
+  
+  /* Text, Chat, UI */
+  --Send: #d4bb6a;
+  --clear: #aa8f39;
+  --Send-hover: #aa9347;
+  --clear-hover: #7a641d;
+  --toggle: #A4BB6A;
+  --toggle-hover: #758b3d;
+  --text_areabackground: #f0e1db;
+
+
+  /* Border thickness variables */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  
+  /* Semantic border variables */
+  --border-default: 1px;
+  --border-focus: 2px;
+  --border-hover: 3px;
+  
+  /* Component-specific borders */
+  --button-border: 2px;
+  --input-border: 1px;
+  --card-border: 1px;
+  --toggle-border: 3px;
+}
+
 /* Apply Oswald globally */
 *, *::before, *::after {
     font-family: "Oswald", sans-serif !important;
-    color: #120f0e !important;
+    color: var(--primarytext-color) !important;
 }
 
 .title-header {
     background-color: rgb(240, 236, 230) !important;
     padding: 10px 20px;
     margin: 0 !important;
-    border-bottom: 1pt solid #59524f;
+    border-bottom: var(--border-default) solid #59524f;
     text-align: left;
     flex-shrink: 0 !important;
     height: 60px !important;
@@ -33,7 +78,7 @@
 .title-header h1 {
     font-size: 1.5rem;
     font-weight: 600 !important;
-    color: #120f0e !important;
+    color: var(--primarytext-color) !important;
     margin: 0;
     padding: 0;
 }
@@ -42,7 +87,7 @@
 .input-controls {
     padding: 15px 20px !important;
     background-color: rgb(240, 236, 230) !important;
-    border-top: 1pt solid #59524f;
+    border-top: var(--border-default) solid #59524f;
     flex-shrink: 0 !important;
     width: 100% !important;
 }
@@ -51,7 +96,7 @@
 .gradio-container-5-42-0 {
     background-color: rgb(240, 236, 230) !important;
     font-family: "Oswald", sans-serif !important;
-    color: #120f0e !important;
+    color: var(--primarytext-color) !important;
     padding: 0 !important;
     margin: 0 !important;
     height: 100vh !important;
@@ -72,8 +117,8 @@
 
 /* Chat styling - FLEX to fill space */
 .gradio-container-5-42-0 .gradio-chatbot {
-    background-color: #d9d1ce !important;
-    border: 1pt solid #59524f !important;
+    background-color: var(--chathistory_area) !important;
+    border: var(--border-default) solid var(--secondary-dark) !important;
     border-radius: 6px !important;
     padding: 15px !important;
     flex: 1 !important;              /* Fill all remaining space */
@@ -84,11 +129,11 @@
 
 /* Message styling */
 .gradio-container-5-42-0 .gradio-chatbot .message.bot .markdown {
-    background-color: #f09c7d !important;
-    color: #120f0e !important;
+    background-color: var(--ai_message) !important;
+    color: var(--primarytext-color) !important;
     border-radius: 8px !important;
     padding: 12px 16px !important;
-    border: 1pt solid #59524f !important;
+    border: var(--border-default) solid var(--secondary-dark) !important;
     max-width: 70%;
     margin-left: 0;
     margin-right: auto;
@@ -98,11 +143,11 @@
 }
 
 .gradio-container-5-42-0 .gradio-chatbot .message.user .markdown {
-    background-color: #a69189 !important;
-    color: #120f0e !important;
+    background-color: var(--user_message) !important;
+    color: var(--primarytext-color) !important;
     border-radius: 8px !important;
     padding: 12px 16px !important;
-    border: 1pt solid #59524f !important;
+    border: var(--border-default) solid var(--primary-dark) !important;
     max-width: 70%;
     margin-left: auto;
     margin-right: 0;
@@ -115,23 +160,23 @@
 .input-controls {
     padding: 15px 20px !important;
     background-color: rgb(240, 236, 230) !important;
-    border-top: 1pt solid #59524f;
+    border-top: var(--border-default) solid #59524f;
     flex-shrink: 0 !important;
 }
 
 .input-textbox textarea {
-    background-color: #f0ece6 !important;
-    border: 1pt solid #59524f !important;
+    background-color: var(--text_areabackground) !important;
+    border: var(--input-border) solid var(--secondary-dark) !important;
     border-radius: 6px !important;
-    color: #120f0e !important;
+    color: var(--primarytext-color) !important;
     font-family: "Oswald", sans-serif !important;
     padding: 10px !important;
     resize: none !important;
 }
 
 .input-textbox textarea:focus {
-    border-color: #f09c7d !important;
-    box-shadow: 0 0 0 2px rgba(240, 156, 125, 0.2) !important;
+    border-color: var(--secondary-light) !important;
+    box-shadow: 0 0 0 var(--border-focus) rgba(212, 139, 106, 0.2) !important;
 }
 
 .button-column {
@@ -140,7 +185,7 @@
 }
 
 .send-button, .clear-button {
-   border: 1pt solid #59524f !important;
+   border: var(--button-border) solid var(--secondary-dark) !important;
    border-radius: 6px !important;
    font-weight: 500 !important;
    padding: 8px 16px !important;
@@ -149,23 +194,40 @@
 }
 
 .send-button {
-   background-color: #f09c7d !important;
-   color: #120f0e !important;
+   background-color: var(--Send) !important;
+   color: var(--primarytext-color) !important;
 }
 
 .send-button:hover {
-   background-color: #e8895a !important;
-   border-color: #4a3f3c !important;
+   background-color: var(--Send-hover) !important;
+   border-color: var(--secondary-dark) !important;
 }
 
 .clear-button {
-   background-color: #a69189 !important;
-   color: #120f0e !important;
+   background-color: var(--clear) !important;
+   color: var(--primarytext-color) !important;
 }
 
 .clear-button:hover {
-   background-color: #8f7d73 !important;
-   border-color: #4a3f3c !important;
+   background-color: var(--clear-hover) !important;
+   border-color: var(--secondary-dark) !important;
+}
+
+/* Unchecked state */
+.custom-toggle input[type="checkbox"] {
+    background-color: var(--secondarytext-color);
+    border: var(--border-default) solid var(--secondary-dark);
+}
+
+/* Checked state */
+.custom-toggle input[type="checkbox"]:checked {
+    background-color: var(--toggle) !important;
+    border-color: var(--secondary-dark) !important;
+    box-shadow: 0 0 0 var(--toggle-border) var(--toggle-hover) !important;
+}
+
+.custom-toggle input[type="checkbox"]:hover:checked {
+    background-color: var(--toggle-hover) !important;
 }
 
 /* Ensure Gradio footer is visible and properly positioned */
@@ -178,7 +240,7 @@ footer.svelte-czcr5b {
     right: 0 !important;
     background-color: rgba(240, 236, 230, 0.95) !important;
     backdrop-filter: blur(5px) !important;
-    border-top: 1pt solid #59524f !important;
+    border-top: var(--border-default) solid #59524f !important;
     padding: 8px 16px !important;
     z-index: 1000 !important;
     height: auto !important;
@@ -188,7 +250,7 @@ footer.svelte-czcr5b {
 /* Style the footer buttons to match your theme */
 footer.svelte-czcr5b button {
     background-color: transparent !important;
-    color: #120f0e !important;
+    color: var(--primarytext-color) !important;
     border: none !important;
     font-family: "Oswald", sans-serif !important;
     font-size: 12px !important;

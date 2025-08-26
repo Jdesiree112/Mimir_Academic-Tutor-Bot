@@ -1,6 +1,6 @@
 import gradio as gr
 from graph_tool import generate_plot
-from metrics import EduBotMetrics
+from metrics import MimirMetrics
 import os
 import time
 import logging
@@ -29,7 +29,7 @@ hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACEHUB_API_TOKE
 if not hf_token:
     logger.warning("Neither HF_TOKEN nor HUGGINGFACEHUB_API_TOKEN is set, the application may not work.")
 
-metrics_tracker = EduBotMetrics(save_file="edu_metrics.json")
+metrics_tracker = MimirMetrics(save_file="edu_metrics.json")
 
 # --- LangChain Tool Definition ---
 class GraphInput(BaseModel):
@@ -91,7 +91,7 @@ Always use proper JSON formatting with quotes around keys and string values."""
 
 
 # --- System Prompt ---
-SYSTEM_PROMPT = """You are EduBot, an expert multi-concept tutor designed to facilitate genuine learning and understanding. Your primary mission is to guide students through the learning process rather than providing direct answers to academic work.
+SYSTEM_PROMPT = """You are Mimir, an expert multi-concept tutor designed to facilitate genuine learning and understanding. Your primary mission is to guide students through the learning process rather than providing direct answers to academic work.
 
 ## Core Educational Principles
 - Provide comprehensive, educational responses that help students truly understand concepts
@@ -302,7 +302,7 @@ window.MathJax = {
 html_head_content = '''
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EduBot - AI Educational Assistant</title>
+<title>Mimir - AI Educational Assistant</title>
 '''
 
 # --- Force Light Mode Script ---
@@ -446,7 +446,7 @@ def create_interface():
         logger.warning(f"Error reading styles.css: {e}")
     
     with gr.Blocks(
-        title="EduBot", 
+        title="Mimir", 
         fill_width=True, 
         fill_height=True,
         theme=gr.themes.Origin()
@@ -459,7 +459,7 @@ def create_interface():
         
         with gr.Column(elem_classes=["main-container"]):
             # Title Section
-            gr.HTML('<div class="title-header"><h1>🎓 EduBot</h1></div>')
+            gr.HTML('<div class="title-header"><h1>🎓 Mimir</h1></div>')
             
             # Chat Section
             with gr.Row():
@@ -506,10 +506,10 @@ def create_interface():
 # --- Main Execution ---
 if __name__ == "__main__":
     try:
-        logger.info("Starting EduBot...")
+        logger.info("Starting Mimir...")
         interface = create_interface()
         interface.queue()
         interface.launch()
     except Exception as e:
-        logger.error(f"Failed to launch EduBot: {e}")
+        logger.error(f"Failed to launch Mimir: {e}")
         raise
