@@ -70,6 +70,14 @@
     width: 100% !important;
 }
 
+.title-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600 !important;
+    color: var(--primarytext-color) !important;
+    margin: 0;
+    padding: 0;
+}
+
 /* More aggressive Gradio overrides */
 .gradio-container, 
 .gradio-container *,
