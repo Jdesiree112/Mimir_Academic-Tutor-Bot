@@ -439,7 +439,7 @@ def create_interface():
         
         with gr.Column(elem_classes=["main-container"]):
             # Title Section
-            gr.HTML('<div class="title-header"><h1>Mimir 🎓</h1></div>')
+            gr.HTML('<div class="title-header"><h1> Mimir 🎓</h1></div>')
             
             # Chat Section
             with gr.Row():
@@ -454,7 +454,7 @@ def create_interface():
                     height="70vh"
                 )
             
-            # Input Section - removed voice toggle
+            # Input Section
             with gr.Row(elem_classes=["input-controls"]):
                 msg = gr.Textbox(
                     placeholder="Ask me about math, research, study strategies, or any educational topic...",
