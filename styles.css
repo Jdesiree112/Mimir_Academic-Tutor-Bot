@@ -22,8 +22,6 @@
   --clear: #aa8f39;
   --Send-hover: #aa9347;
   --clear-hover: #7a641d;
-  --toggle: #A4BB6A;
-  --toggle-hover: #758b3d;
   --text_areabackground: #f0edec;
 
 
@@ -40,7 +38,6 @@
   --button-border: 2px;
   --input-border: 1px;
   --card-border: 1px;
-  --toggle-border: 3px;
 }
 
 /* Import Oswald font - Google Fonts */
@@ -54,6 +51,23 @@
     padding: 0 !important;
     margin: 0 !important;
     visibility: hidden !important;
+}
+
+/* Force text color on all elements - FIX FOR WHITE TEXT */
+* {
+    color: var(--primarytext-color) !important;
+    font-family: "Oswald", sans-serif !important;
+}
+
+/* Specific text elements - ENSURE VISIBILITY */
+body, p, span, div, h1, h2, h3, h4, h5, h6, label, a {
+    color: var(--primarytext-color) !important;
+}
+
+/* All Gradio text elements - OVERRIDE GRADIO DEFAULTS */
+.gradio-container,
+.gradio-container *:not(textarea):not(input):not(button) {
+    color: var(--primarytext-color) !important;
 }
 
 /* Title header with transparent background */
@@ -120,6 +134,7 @@ button.clear-button {
     font-family: "Oswald", sans-serif !important;
     font-weight: 500 !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    color: var(--primarytext-color) !important;
 }
 
 /* Send button specific */
@@ -136,11 +151,6 @@ button.clear-button,
     background-color: var(--clear) !important;
     color: var(--primarytext-color) !important;
     border: var(--button-border) solid var(--secondary-dark) !important;
-}
-
-/* Nuclear option - override everything */
-* {
-    font-family: "Oswald", sans-serif !important;
 }
 
 /* Background area behind everything */
@@ -182,6 +192,7 @@ button.clear-button,
     overflow-y: auto !important;
     margin: 15px 20px !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--primarytext-color) !important;
 }
 
 /* Gradio-specific chat container selectors */
@@ -207,7 +218,8 @@ button.clear-button,
 }
 
 /* User message markdown styling */
-.message.user .markdown {
+.message.user .markdown,
+.message.user .markdown * {
     background-color: var(--user_message) !important;
     color: var(--primarytext-color) !important;
     border-radius: 8px !important;
@@ -228,7 +240,8 @@ button.clear-button,
 }
 
 /* AI message markdown styling */
-.message.bot .markdown {
+.message.bot .markdown,
+.message.bot .markdown * {
     background-color: var(--ai_message) !important;
     color: var(--primarytext-color) !important;
     border-radius: 8px !important;
@@ -240,6 +253,16 @@ button.clear-button,
     word-wrap: break-word;
     font-weight: 400 !important;
     margin-bottom: 10px !important;
+}
+
+/* Chat message text content - CRITICAL FIX */
+.message.user .markdown p,
+.message.user .markdown span,
+.message.user .markdown div,
+.message.bot .markdown p,
+.message.bot .markdown span,
+.message.bot .markdown div {
+    color: var(--primarytext-color) !important;
 }
 
 /* Input textbox */
@@ -310,6 +333,17 @@ textarea:focus {
     box-shadow: 0 0 0 var(--border-focus) rgba(212, 139, 106, 0.2) !important;
 }
 
+/* Input text - ENSURE VISIBILITY */
+textarea, input {
+    color: var(--primarytext-color) !important;
+}
+
+/* Input placeholder text */
+textarea::placeholder,
+input::placeholder {
+    color: var(--secondarytext-color) !important;
+}
+
 /* Send button */
 .send-button {
     border: 1pt solid var(--secondary-dark);
@@ -374,35 +408,11 @@ textarea:focus {
     border-color: var(--secondary-dark) !important;
 }
 
-/* Voice toggle switch */
-.voice-toggle {
-    border: 1pt solid var(--secondary-dark);
-    background-color: var(--toggle);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Button text - ENSURE VISIBILITY */
+button, .gradio-button {
+    color: var(--primarytext-color) !important;
 }
 
-/* Voice toggle unchecked state */
-.voice-toggle input[type="checkbox"] {
-    background-color: var(--secondarytext-color);
-    border: var(--border-default) solid var(--secondary-dark);
-}
-
-/* Voice toggle checked state */
-.voice-toggle input[type="checkbox"]:checked {
-    background-color: var(--toggle) !important;
-    border-color: var(--secondary-dark) !important;
-    box-shadow: 0 0 0 var(--toggle-border) var(--toggle-hover) !important;
-}
-
-/* Voice toggle switch hover */
-.voice-toggle:hover {
-    background-color: var(--toggle-hover);
-}
-
-/* Voice toggle hover checked state */
-.voice-toggle input[type="checkbox"]:hover:checked {
-    background-color: var(--toggle-hover) !important;
-}
 
 /* Input controls container */
 .input-controls {
