@@ -3,6 +3,7 @@ from graph_tool import generate_plot
 from metrics import MimirMetrics
 import os
 import time
+from dotenv import load_dotenv
 import logging
 import json
 import re
@@ -459,7 +460,7 @@ def create_interface():
         
         with gr.Column(elem_classes=["main-container"]):
             # Title Section
-            gr.HTML('<div class="title-header"><h1>🎓 Mimir</h1></div>')
+            gr.HTML('<div class="title-header";"><h1> Mimir 🎓 </h1></div>')
             
             # Chat Section
             with gr.Row():
@@ -479,8 +480,8 @@ def create_interface():
                 msg = gr.Textbox(
                     placeholder="Ask me about math, research, study strategies, or any educational topic...",
                     show_label=False,
-                    lines=4,
-                    max_lines=6,
+                    lines=6,
+                    max_lines=8,
                     elem_classes=["input-textbox"],
                     container=False,
                     scale=4
@@ -509,7 +510,13 @@ if __name__ == "__main__":
         logger.info("Starting Mimir...")
         interface = create_interface()
         interface.queue()
-        interface.launch()
+        interface.launch(
+            server_name="0.0.0.0",
+            # Remove server_port - let Gradio find an available port
+            share=True,
+            debug=True,
+            favicon_path="assets/favicon.ico"
+        )
     except Exception as e:
         logger.error(f"Failed to launch Mimir: {e}")
         raise

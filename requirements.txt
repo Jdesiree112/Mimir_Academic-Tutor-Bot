@@ -11,6 +11,9 @@ together
 transformers
 qwen_omni_utils
 soundfile
+torchvision
+dotenv
+accelerate
 
 # To Install
 # pip install -r requirements.txt
