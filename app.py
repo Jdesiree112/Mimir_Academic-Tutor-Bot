@@ -16,7 +16,10 @@ from typing import Optional, List, Any, Type
 from pydantic import BaseModel, Field
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
-from .evn import HF_TOKEN
+# Load environment variables from .EVN fil (case-sensitive)
+load_dotenv(".evn")
+HF_TOKEN = os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACEHUB_API_TOKEN")
+print("Environment variables loaded.")
 
 # --- Environment and Logging Setup ---
 logging.basicConfig(level=logging.INFO)
