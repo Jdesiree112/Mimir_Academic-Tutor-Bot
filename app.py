@@ -16,17 +16,18 @@ from typing import Optional, List, Any, Type
 from pydantic import BaseModel, Field
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+from .evn import HF_TOKEN
 
 # --- Environment and Logging Setup ---
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Support both token names for flexibility
-hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+hf_token = HF_TOKEN
 if not hf_token:
     logger.warning("Neither HF_TOKEN nor HUGGINGFACEHUB_API_TOKEN is set, the application may not work.")
 
-metrics_tracker = MimirMetrics(save_file="edu_metrics.json")
+metrics_tracker = MimirMetrics(save_file="Mimir_metrics.json")
 
 # --- LangChain Tool Definition ---
 class GraphInput(BaseModel):
