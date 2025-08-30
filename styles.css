@@ -4,25 +4,25 @@
   --primarytext-color: #0f0e09;
   --secondarytext-color: #696966;
 
-  /* Primary colors */
-  --primary-dark: #344b5f;
-  --primary-light: #728DA5;
+  /* Primary colors - Blue theme */
+  --primary-dark: #1e3a8a;        /* Deep blue */
+  --primary-light: #3b82f6;       /* Medium blue */
   
-  /* Secondary colors */
-  --secondary-dark: #551a00;
-  --secondary-light: #d48b6a;
+  /* Secondary colors - Blue shades */
+  --secondary-dark: #1d4ed8;      /* Darker blue */
+  --secondary-light: #60a5fa;     /* Light blue */
 
   /* Chat colors */
-  --user_message: #4A6B8A;
-  --ai_message: #A4BB6A;
-  --chathistory_area: #f0e1db;
+  --user_message: #bfdbfe;        /* Light blue bubble for user */
+  --ai_message: #14b8a6;          /* Medium teal for AI */
+  --chathistory_area: #f3f4f6;    /* Very light grey for chat history */
   
   /* Text, Chat, UI */
-  --Send: #d4bb6a;
-  --clear: #aa8f39;
-  --Send-hover: #aa9347;
-  --clear-hover: #7a641d;
-  --text_areabackground: #f0edec;
+  --Send: #3b82f6;                /* Send button - medium blue (lighter than clear) */
+  --clear: #1e40af;               /* Clear button - darker blue */
+  --Send-hover: #2563eb;          /* Send button hover */
+  --clear-hover: #1d4ed8;         /* Clear button hover */
+  --text_areabackground: #f3f4f6; /* Very light grey for text areas */
 
 
   /* Border thickness variables */
@@ -86,7 +86,7 @@ body, p, span, div, h1, h2, h3, h4, h5, h6, label, a {
     padding: 0;
 }
 
-/* More aggressive Gradio overrides */
+/* More aggressive Gradio overrides - keep current background */
 .gradio-container, 
 .gradio-container *,
 [data-testid="block-container"],
@@ -304,7 +304,7 @@ button.clear-button,
 /* Input textbox focus state */
 .input-textbox textarea:focus {
     border-color: var(--secondary-light) !important;
-    box-shadow: 0 0 0 var(--border-focus) rgba(212, 139, 106, 0.2) !important;
+    box-shadow: 0 0 0 var(--border-focus) rgba(96, 165, 250, 0.2) !important;
 }
 
 /* General textarea styling */
@@ -324,7 +324,7 @@ textarea {
 /* General textarea focus state */
 textarea:focus {
     border-color: var(--secondary-light) !important;
-    box-shadow: 0 0 0 var(--border-focus) rgba(212, 139, 106, 0.2) !important;
+    box-shadow: 0 0 0 var(--border-focus) rgba(96, 165, 250, 0.2) !important;
 }
 
 /* Input text - ENSURE VISIBILITY */
@@ -464,6 +464,7 @@ footer.svelte-czcr5b .divider {
         padding: 10px !important;
     }
 }
+
 /* Dark mode variables pulled from HTML when testing the app */
 /* This is meant to address the issue of Mimir not applying dark mode correctly */
 /* and ensure consistency regardless of user system settings */
@@ -533,7 +534,7 @@ footer.svelte-czcr5b .divider {
     --input_border_width: 1.5px;
     --input-placeholder-color: var(--secondarytext-color);
     --input_shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --input-shadow-focus: 0 0 0 var(--shadow-spread) rgba(212, 139, 106, 0.2), var(--shadow-inset);
+    --input-shadow-focus: 0 0 0 var(--shadow-spread) rgba(96, 165, 250, 0.2), var(--shadow-inset);
     --loader_color: var(--secondary-light);
     --slider_color: var(--secondary-light);
     --stat-background-fill: linear-gradient(to right, var(--primary-light), var(--primary-dark));
@@ -567,28 +568,28 @@ footer.svelte-czcr5b .divider {
     --button-secondary-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1);
     --button-secondary-shadow-active: 0 2px 4px rgba(0, 0, 0, 0.1);
     --name: origin;
-    --primary-50: #fff7ed;
-    --primary-100: #ffedd5;
-    --primary-200: #ffddb3;
-    --primary-300: #fdba74;
-    --primary-400: #fb923c;
-    --primary-500: #f97316;
-    --primary-600: #ea580c;
-    --primary-700: #c2410c;
-    --primary-800: #9a3412;
-    --primary-900: #7c2d12;
-    --primary-950: #6c2e12;
-    --secondary-50: #eff6ff;
-    --secondary-100: #dbeafe;
-    --secondary-200: #bfdbfe;
-    --secondary-300: #93c5fd;
-    --secondary-400: #60a5fa;
-    --secondary-500: #3b82f6;
-    --secondary-600: #2563eb;
-    --secondary-700: #1d4ed8;
-    --secondary-800: #1e40af;
-    --secondary-900: #1e3a8a;
-    --secondary-950: #1d3660;
+    --primary-50: #eff6ff;
+    --primary-100: #dbeafe;
+    --primary-200: #bfdbfe;
+    --primary-300: #93c5fd;
+    --primary-400: #60a5fa;
+    --primary-500: #3b82f6;
+    --primary-600: #2563eb;
+    --primary-700: #1d4ed8;
+    --primary-800: #1e40af;
+    --primary-900: #1e3a8a;
+    --primary-950: #172554;
+    --secondary-50: #f0f9ff;
+    --secondary-100: #e0f2fe;
+    --secondary-200: #bae6fd;
+    --secondary-300: #7dd3fc;
+    --secondary-400: #38bdf8;
+    --secondary-500: #0ea5e9;
+    --secondary-600: #0284c7;
+    --secondary-700: #0369a1;
+    --secondary-800: #075985;
+    --secondary-900: #0c4a6e;
+    --secondary-950: #082f49;
     --neutral-50: #f9fafb;
     --neutral-100: #f3f4f6;
     --neutral-200: #e5e7eb;
