@@ -12,6 +12,7 @@ pandas>=2.0.0
 numpy>=1.24.0
 Pillow>=10.0.0
 python-dotenv>=1.0.0
+bitsandbytes>=0.45.3
 
 # To Install
 # pip install -r requirements.txt
