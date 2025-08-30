@@ -2,6 +2,11 @@ import gradio as gr
 from graph_tool import generate_plot
 from metrics import MimirMetrics
 import os
+
+os.environ['HF_HOME'] = '/tmp/huggingface'
+os.environ['TRANSFORMERS_CACHE'] = '/tmp/huggingface'
+os.environ['HF_DATASETS_CACHE'] = '/tmp/huggingface'
+
 import time
 from dotenv import load_dotenv
 import logging
