@@ -13,7 +13,7 @@ from langchain.schema import SystemMessage
 from langchain.llms.base import LLM
 from typing import Optional, List, Any, Type
 from pydantic import BaseModel, Field
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 # Load environment variables from .EVN fil (case-sensitive)
 load_dotenv(".evn")
@@ -161,7 +161,153 @@ def initialize_system_prompt(agent):
         agent.memory.chat_memory.add_message(system_message)
         system_prompt_initialized = True
 
+logger = logging.getLogger(__name__)
+
 class Qwen25SmallLLM(LLM):
+    model: Any = None
+    tokenizer: Any = None
+    
+    def __init__(self, model_path: str = "Qwen/Qwen2.5-3B-Instruct", use_4bit: bool = True):
+        super().__init__()
+        logger.info(f"Loading model with BitsAndBytes quantization: {model_path}")
+        
+        # Configure BitsAndBytes quantization
+        if use_4bit:
+            quantization_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_compute_dtype=torch.bfloat16,  # Use bfloat16 for better performance
+                bnb_4bit_use_double_quant=True,         # Double quantization for additional memory savings
+                bnb_4bit_quant_type="nf4"               # Normal Float 4-bit quantization
+            )
+            logger.info("Using 4-bit quantization with BitsAndBytes")
+        else:
+            quantization_config = BitsAndBytesConfig(
+                load_in_8bit=True,
+                llm_int8_enable_fp32_cpu_offload=True   # Offload to CPU if needed
+            )
+            logger.info("Using 8-bit quantization with BitsAndBytes")
+        
+        try:
+            # Load tokenizer
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                model_path,
+                trust_remote_code=True
+            )
+            
+            # Load model with quantization
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_path,
+                quantization_config=quantization_config,
+                device_map="auto",  # Automatically distribute across available devices
+                torch_dtype=torch.bfloat16,  # Use bfloat16 for memory efficiency
+                trust_remote_code=True,
+                low_cpu_mem_usage=True,  # Reduce CPU memory usage during loading
+                max_memory={0: "15GB"} if torch.cuda.is_available() else None  # Limit GPU memory usage
+            )
+            
+            # Ensure pad token is set
+            if self.tokenizer.pad_token is None:
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+            
+            logger.info("Model loaded successfully with BitsAndBytes quantization")
+            
+        except Exception as e:
+            logger.error(f"Failed to load model with quantization: {e}")
+            logger.info("Falling back to standard loading...")
+            # Fallback to standard loading if quantization fails
+            self._load_fallback_model(model_path)
+    
+    def _load_fallback_model(self, model_path: str):
+        """Fallback method to load model without quantization if needed."""
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_path,
+                torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+                device_map="auto" if torch.cuda.is_available() else None,
+                trust_remote_code=True,
+                low_cpu_mem_usage=True
+            )
+            if self.tokenizer.pad_token is None:
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+            logger.info("Model loaded with fallback method")
+        except Exception as e:
+            logger.error(f"Fallback model loading also failed: {e}")
+            raise e
+    
+    def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
+        """Generate text response using the quantized local model."""
+        try:
+            # Format the conversation
+            messages = [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt}
+            ]
+            
+            # Apply chat template
+            text = self.tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
+            
+            # Tokenize with proper padding
+            model_inputs = self.tokenizer(
+                [text], 
+                return_tensors="pt", 
+                padding=True, 
+                truncation=True,
+                max_length=2048  # Limit input length to prevent memory issues
+            )
+            
+            # Move to model device if available
+            if torch.cuda.is_available():
+                model_inputs = {k: v.to(self.model.device) for k, v in model_inputs.items()}
+            
+            # Generate with memory-efficient settings
+            with torch.no_grad():
+                generated_ids = self.model.generate(
+                    **model_inputs,
+                    max_new_tokens=800,  # Reduced for memory efficiency
+                    do_sample=True,
+                    temperature=0.7,
+                    top_p=0.9,
+                    top_k=50,
+                    repetition_penalty=1.1,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    use_cache=True,  # Enable KV cache for efficiency
+                    attention_mask=model_inputs.get('attention_mask', None)
+                )
+            
+            # Decode response (only new tokens)
+            generated_ids = [
+                output_ids[len(input_ids):] 
+                for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+            ]
+            
+            response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+            
+            # Clean up GPU memory
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            
+            return response.strip()
+            
+        except torch.cuda.OutOfMemoryError:
+            logger.error("GPU out of memory during generation")
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            return "I apologize, but I'm experiencing memory constraints. Please try a shorter message or restart the application."
+            
+        except Exception as e:
+            logger.error(f"Error in model generation: {e}")
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            return f"I apologize, but I encountered an error while generating a response: {str(e)}"
+
+    @property
+    def _llm_type(self) -> str:
+        return "qwen25_small_quantized"
     model: Any = None
     tokenizer: Any = None
     
@@ -496,4 +642,3 @@ if __name__ == "__main__":
         )
     except Exception as e:
         logger.error(f"Failed to launch Mimir: {e}")
-        raise
